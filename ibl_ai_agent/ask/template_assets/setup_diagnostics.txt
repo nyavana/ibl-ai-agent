@@ -1,0 +1,10 @@
+setup_diagnostics = {
+    "live_one_ok": bool(globals().get("live_one_ok", False)),
+    "eids": list(globals().get("eids", [])),
+    "labs_in_map": int(len(globals().get("eid_to_lab", {}))),
+    "clusters_rows": int(len(globals().get("clusters_df", pd.DataFrame()))),
+    "clusters_has_lab": bool("lab" in globals().get("clusters_df", pd.DataFrame()).columns),
+    "trials_rows": int(len(globals().get("trials_df", pd.DataFrame()))),
+    "trials_has_lab": bool("lab" in globals().get("trials_df", pd.DataFrame()).columns),
+    "decoding_rows": int(len(globals().get("decoding_df", pd.DataFrame()))),
+}

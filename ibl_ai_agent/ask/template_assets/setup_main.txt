@@ -1,0 +1,20 @@
+one.search(limit=1)
+live_one_ok = True
+
+eids = resolve_eids(one, SESSIONS_HINT_PATH, MAX_SESSIONS)
+eid_to_lab = eid_lab_map(one, eids, SESSIONS_HINT_PATH)
+cluster_frames = []
+trial_frames = []
+
+for eid in eids:
+    trial_frames.append(trials_from_session(one, eid))
+    cluster_frames.append(clusters_from_spikes(one, eid, pname="probe00"))
+
+clusters_df = pd.concat(cluster_frames, ignore_index=True) if cluster_frames else pd.DataFrame()
+trials_df = pd.concat(trial_frames, ignore_index=True) if trial_frames else pd.DataFrame()
+decoding_df = pd.DataFrame()
+
+if not clusters_df.empty and "lab" not in clusters_df.columns:
+    clusters_df["lab"] = clusters_df["eid"].map(eid_to_lab).astype(object)
+if not trials_df.empty and "lab" not in trials_df.columns:
+    trials_df["lab"] = trials_df["eid"].map(eid_to_lab).astype(object)

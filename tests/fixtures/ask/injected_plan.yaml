@@ -1,0 +1,19 @@
+plan_steps:
+  - Compute region summaries
+  - Render one figure
+  - Write result JSON
+required_outputs_json:
+  answer: string
+  evidence: object<string, any>
+analysis_code: |
+  import json
+  import matplotlib.pyplot as plt
+
+  fig, ax = plt.subplots(figsize=(4, 3), dpi=100)
+  ax.plot([0, 1], [0, 1])
+  fig.tight_layout()
+  fig.savefig(FIGURE_PATH)
+
+  analysis_result = {"answer": "__ANSWER__", "evidence": {"ok": True}}
+  with open(RESULT_JSON_PATH, "w", encoding="utf-8") as f:
+      json.dump(analysis_result, f)

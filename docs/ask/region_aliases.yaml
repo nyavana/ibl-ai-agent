@@ -1,0 +1,11 @@
+canonical_regions:
+  - LP
+  - LGv
+  - PO
+  - VISp
+aliases:
+  lp: LP
+  lgv: LGv
+  po: PO
+  visp: VISp
+  visual cortex: VISp

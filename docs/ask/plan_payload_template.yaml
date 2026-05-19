@@ -1,0 +1,28 @@
+plan_steps:
+  - Load relevant sessions and region-normalized unit tables.
+  - Compute question-specific metrics grouped by requested factors.
+  - Render one summary figure and write analysis_result JSON.
+required_outputs_json:
+  answer: string
+  evidence: object<string, any>
+analysis_code: |
+  """Original question:
+  Replace with the verbatim user question.
+  """
+
+  import json
+  import matplotlib.pyplot as plt
+
+  fig, ax = plt.subplots(figsize=(6, 4), dpi=120)
+  ax.set_title("Replace with question-specific analysis")
+  ax.text(0.5, 0.5, "TODO: implement analysis code", ha="center", va="center")
+  ax.set_axis_off()
+  fig.tight_layout()
+  fig.savefig(FIGURE_PATH)
+
+  analysis_result = {
+      "answer": "Plan scaffold generated. Replace analysis_code before execution.",
+      "evidence": {"todo": True},
+  }
+  with open(RESULT_JSON_PATH, "w", encoding="utf-8") as f:
+      json.dump(analysis_result, f)

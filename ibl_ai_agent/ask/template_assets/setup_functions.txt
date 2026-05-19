@@ -1,0 +1,89 @@
+def normalize_beryl(acronyms):
+    arr = np.asarray(acronyms, dtype=object)
+    return br.acronym2acronym(arr, mapping="Beryl")
+
+
+def resolve_eids(one, sessions_hint_path, max_sessions):
+    max_sessions_limit = int(max_sessions) if isinstance(max_sessions, int) and max_sessions > 0 else None
+    eids = []
+    if sessions_hint_path and Path(sessions_hint_path).exists():
+        payload = yaml.safe_load(Path(sessions_hint_path).read_text(encoding="utf-8")) or {}
+        for row in payload.get("sessions", []):
+            eid = row.get("eid")
+            if isinstance(eid, str) and eid.strip():
+                eids.append(eid.strip())
+    if not eids:
+        search_kwargs = {
+            "dataset_types": ["spikes.times", "spikes.clusters"],
+            "query_type": "remote",
+        }
+        if max_sessions_limit is not None:
+            search_kwargs["limit"] = max(5, min(max_sessions_limit, 200))
+        found = one.search(**search_kwargs)
+        eids = [str(e) for e in found]
+    return eids[:max_sessions_limit] if max_sessions_limit is not None else eids
+
+
+def eid_lab_map(one, eids, sessions_hint_path):
+    out = {}
+    if sessions_hint_path and Path(sessions_hint_path).exists():
+        payload = yaml.safe_load(Path(sessions_hint_path).read_text(encoding="utf-8")) or {}
+        for row in payload.get("sessions", []):
+            if not isinstance(row, dict):
+                continue
+            eid = str(row.get("eid", "")).strip()
+            lab = str(row.get("lab", "")).strip()
+            if eid and lab:
+                out[eid] = lab
+    missing = [eid for eid in eids if eid not in out]
+    for eid in missing:
+        try:
+            det = one.get_details(eid, full=False)
+        except Exception:
+            continue
+        if isinstance(det, dict):
+            lab = det.get("lab")
+            if isinstance(lab, str) and lab.strip():
+                out[eid] = lab.strip()
+    return out
+
+
+def clusters_from_spikes(one, eid, pname="probe00"):
+    sl = SpikeSortingLoader(eid=eid, pname=pname, one=one)
+    spikes, clusters, channels = sl.load_spike_sorting()
+    clusters = sl.merge_clusters(spikes, clusters, channels)
+    n = len(clusters["cluster_id"]) if "cluster_id" in clusters else 0
+    if n == 0:
+        return pd.DataFrame()
+
+    cluster_ids = np.asarray(clusters.get("cluster_id", np.arange(n))).astype(int)
+    labels = np.asarray(clusters.get("label", np.zeros(n))).astype(float)
+    firing_rate = np.asarray(clusters.get("firing_rate", np.full(n, np.nan))).astype(float)
+
+    if "acronym" in clusters:
+        acr = np.asarray(clusters["acronym"], dtype=object)
+    elif "channels" in clusters and "acronym" in channels:
+        chan_idx = np.asarray(clusters["channels"]).astype(int)
+        acr = np.asarray(channels["acronym"], dtype=object)[chan_idx]
+    else:
+        acr = np.asarray(["root"] * n, dtype=object)
+
+    return pd.DataFrame(
+        {
+            "eid": eid,
+            "cluster_id": cluster_ids,
+            "is_good": (labels > 0).astype(int),
+            "firing_rate_hz": firing_rate,
+            "region": normalize_beryl(acr),
+        }
+    )
+
+
+def trials_from_session(one, eid):
+    ss = SessionLoader(one=one, eid=eid)
+    ss.load_trials()
+    if ss.trials is None:
+        return pd.DataFrame()
+    out = ss.trials.copy()
+    out["eid"] = eid
+    return out

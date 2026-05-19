@@ -1,0 +1,9 @@
+result_path = Path(RESULT_JSON_PATH)
+answer_payload = json.loads(result_path.read_text(encoding="utf-8"))
+
+final_answer = str(answer_payload["answer"]).strip()
+print("## Scientific Answer")
+print(final_answer)
+
+figure_path = Path(FIGURE_PATH)
+print(f"Figure file: {figure_path}")

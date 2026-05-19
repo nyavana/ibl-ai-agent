@@ -1,0 +1,4 @@
+result_path = Path(RESULT_JSON_PATH)
+result_path.parent.mkdir(parents=True, exist_ok=True)
+with result_path.open("w", encoding="utf-8") as f:
+    json.dump(analysis_result, f, indent=2)

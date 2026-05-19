@@ -1,0 +1,5 @@
+print("### Setup Summary")
+print(setup_diagnostics)
+
+print(f"[preview] clusters_df: shape={clusters_df.shape}")
+print(f"[preview] trials_df: shape={trials_df.shape}")
