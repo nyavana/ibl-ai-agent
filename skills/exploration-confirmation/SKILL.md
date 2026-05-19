@@ -23,6 +23,8 @@ If there are not enough replicates to have separate exploration and confirmation
 
 Finding a good replicate definition and data split is essential.  Sometimes finding a good split itself requires research, so stop and discuss with the user before starting exploratory analysis.
 
+For questions where the exploration set is used to define metrics such as time bins that will be used for brainwide analysis, consider using a subset of the repeated site recordings from different labs as exploration set, to help estimate session-to-session variability.
+
 **IMPORTANT** Do **NOT** start analysis until the user has approved a split strategy.
 
 # Exploratory analysis
