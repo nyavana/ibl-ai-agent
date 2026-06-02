@@ -1,0 +1,50 @@
+# Data Changelog
+
+All notable changes to the IBL AI Agent datasets are documented here.
+
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
+Dataset versions follow [Semantic Versioning](https://semver.org/).
+
+---
+
+## [Unreleased]
+
+---
+
+## [bwm_ephys 1.2.0] - 2026-06-02
+
+### Added
+- `clusters.pqt` (621 733 × 59): full-release BWM unit table covering all 699 probe
+  insertions. Replaces the `2024_Q2_IBL_et_al_BWM` aggregate `clusters.pqt`.
+  Includes `eid` and 25 new columns relative to the 2024_Q2 aggregate:
+  - Firing statistics: `burstiness`, `memory`
+  - QC / annotation: `labels`, `rawInd`, `peak_channel`, `invert_sign_peak`
+  - Waveform shape: `peak_time_idx`, `peak_val`, `trough_time_idx`, `trough_val`,
+    `tip_time_idx`, `tip_val`
+  - Waveform timing: `peak_to_trough_duration`, `half_peak_duration`,
+    `half_peak_post_time_idx`, `half_peak_pre_time_idx`,
+    `half_peak_post_val`, `half_peak_pre_val`,
+    `recovery_time_idx`, `recovery_val`
+  - Waveform slopes / ratios: `peak_to_trough_ratio`, `peak_to_trough_ratio_log`,
+    `depolarisation_slope`, `repolarisation_slope`, `recovery_slope`
+- `clusters.waveforms_peak.npy` (621 733 × 128, float16): peak-channel waveform
+  per unit at 30 kHz. Row-aligned with `clusters.pqt`.
+- `clusters.acgs_log.npy` (621 733 × 128, float16): log-binned autocorrelogram
+  per unit. Row-aligned with `clusters.pqt`.
+- `acgs_log.times.npy` (128, float64): shared ACG lag-time axis in seconds.
+
+
+---
+
+## [bwm_ephys 1.1.0] - 2026-02 *(baseline)*
+
+Initial public release of the `bwm_ephys` archive containing:
+- `metadata/`: sessions, insertions, units, channels, trials, events, passive sessions/events.
+- `features/`: unit features, event-response features, passive response features.
+- `spikes/`: per-probe blosc-compressed spike shards (good units only).
+
+---
+
+[Unreleased]: https://github.com/int-brain-lab/ibl-ai-agent/compare/v0.2.0...HEAD
+[bwm_ephys 1.2.0]: https://github.com/int-brain-lab/ibl-ai-agent/releases/tag/v0.2.0
+[bwm_ephys 1.1.0]: https://github.com/int-brain-lab/ibl-ai-agent/releases/tag/v0.1.0
