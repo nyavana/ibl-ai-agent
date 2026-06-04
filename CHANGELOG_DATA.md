@@ -32,6 +32,8 @@ Dataset versions follow [Semantic Versioning](https://semver.org/).
 - `clusters.acgs_log.npy` (621 733 × 128, float16): log-binned autocorrelogram
   per unit. Row-aligned with `clusters.pqt`.
 - `acgs_log.times.npy` (128, float64): shared ACG lag-time axis in seconds.
+- generation code on IBL cluster is available [here](https://github.com/int-brain-lab/sdsc-slurms/blob/main/2026-03_EA_Cells/cells.py), leveraging the [eatools](https://github.com/int-brain-lab/eatools) library.
+
 
 
 ---
