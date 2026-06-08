@@ -11,7 +11,7 @@ This project adheres to [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [0.2.0] - 2026-06-02
+## [0.2.0] - 2026-06-08
 
 ### Added
 - `bwm_ephys` dataset version 1.2.0 with waveforms, additional waveform features for each cluster and autocorrelograms.

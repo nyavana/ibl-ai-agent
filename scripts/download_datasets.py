@@ -84,7 +84,7 @@ ARCHIVES: list[ArchiveSpec] = [
             "https://ibl-brain-wide-map-public.s3.amazonaws.com/resources/"
             "ibl-agent-data/bwm_ephys-1.2.0.tar"
         ),
-        sha1="384e1eddc3cf9249e26ce11bbadc3f86f3ced46d",
+        sha1="6661a59b3397bcc6c0c58295da33c01630ba07e3",
     ),
     ArchiveSpec(
         dataset="bwm_behavior",

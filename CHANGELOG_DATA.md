@@ -11,7 +11,7 @@ Dataset versions follow [Semantic Versioning](https://semver.org/).
 
 ---
 
-## [bwm_ephys 1.2.0] - 2026-06-02
+## [bwm_ephys 1.2.0] - 2026-06-08
 
 ### Added
 - `clusters.pqt` (621 733 × 59): full-release BWM unit table covering all 699 probe
