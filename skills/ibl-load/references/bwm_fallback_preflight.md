@@ -5,8 +5,10 @@ Use this when at least one required analysis field is not present in `bwm_units(
 
 ## When to use
 - The analysis is anchored on `bwm_units(...)` or `clusters.pqt`.
-- A required field such as spike width, waveform features, or another cluster metric is missing from the aggregate/unit table.
+- A required field is missing from the aggregate/unit table AND from `clusters.pqt` in bwm_ephys ≥ 1.2.0.
 - You need to merge a fallback dataset back onto aggregate-filtered rows.
+
+Note: waveform metrics (spike width, peak-to-trough, slopes, ACG) are now available in `clusters.pqt` and companion `.npy` files at the dataset root within `bwm_ephys ≥ 1.2.0`. Check those before falling back to session-level loaders.
 
 ## Mandatory preflight
 1. Schema preflight

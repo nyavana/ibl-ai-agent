@@ -47,6 +47,7 @@ Use a named freeze for reproducible BWM answers. Use `freeze=None` only when the
 - Do not invent aggregate tags.
 - `clusters.pqt` is unit-grain; join to `bwm_query(...)` on `pid` for lab/session metadata.
 - If recovering missing fields from probe ALF files, validate sorter collection/revision and join keys.
+- The `2026_Q2_IBL_et_al_BWM` tag ships an updated `clusters.pqt` (59 columns vs 35 in 2024_Q2) with additional waveform shape metrics. Prefer bwm_ephys ≥ 1.2.0 `clusters.pqt` for local access to this table.
 
 ## Inclusion Pipeline
 `bwm_units(...)` effectively combines:
@@ -68,7 +69,7 @@ Filtered unit counts from upstream tests:
 
 ## Anti-Patterns
 - Do not use `pid2eid` or session loops for broad release summaries.
-- Do not assume `clusters.pqt` contains `lab` or waveform metrics.
+- Do not assume upstream/default aggregate `clusters.pqt` contains `lab` or waveform metrics; inspect the configured local dataset version and schema first.
 - Do not call `one.load_dataset(...)` concurrently against a shared cache unless safety is known.
 - Do not continue after a large post-merge missing-value count until collection/revision mismatch is ruled out.
 - Do not wrap simple BWM answers in CLI-heavy scripts.

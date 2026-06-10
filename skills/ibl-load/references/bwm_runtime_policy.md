@@ -63,9 +63,8 @@ not overwrite it; report missing or invalid schemas instead.
 Prefer the newest version whose schema directly covers the scientific quantity. Do not hard-code an older version when a newer local version exposes the same fields plus relevant extensions.
 
 Use dataset surfaces by semantic domain:
-- `bwm_ephys`: units, insertions, sessions, regions, good-unit spike shards, task event-response features, passive ephys features.
+- `bwm_ephys`: units, insertions, sessions, regions, good-unit spike shards, task event-response features, passive ephys features. From version 1.2.0 onward, root-level full-cluster waveforms, waveform features, and autocorrelograms are also available.
 - `bwm_behavior`: trial behavior, wheel movement features, movement/quiescence state epochs, pose features, behavioral event-aligned features. Current schemas may expose pose tables with legacy `dlc_*` names.
-
 If one answer needs both ephys and behavior surfaces, join only through stable keys such as `eid`, `trial_id`, `pid`, and `cluster_id`, and state the join grain in Methods.
 
 ## Table-surface selection
@@ -73,6 +72,7 @@ Choose the table whose row grain matches the question:
 - insertion-level questions: `metadata/insertions.parquet`
 - session-level questions: `metadata/sessions.parquet`
 - unit-level questions: `metadata/units.parquet` plus `features/unit_features.parquet`
+- unit-level questions requiring waveform metrics, waveform shapes, autocorrelograms, or the full ephys-atlas feature set: `clusters.pqt` (bwm_ephys ≥ 1.2.0); load companion `.npy` arrays for raw waveform or one-side autocorrelogram data.
 - task event-response unit metrics: `features/event_response_features.parquet`
 - passive ephys response metrics: newest sufficient `bwm_ephys` passive tables
 - behavioral/wheel state metrics: newest sufficient `bwm_behavior` trial, wheel, movement/quiescence state, and event-aligned behavior tables
